@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -10,8 +11,21 @@ module.exports = {
   node: {
     fs: 'empty',
   },
-  optimization: {
-    minimize: false,
-    namedModules: true,
-  },
+  plugins: [
+    new webpack.IgnorePlugin({
+      checkContext(_context) {
+        return true;
+      },
+      checkResource(resource) {
+        if (
+          resource === 'foo' ||
+          resource === 'unknown' ||
+          resource === '@agoric/harden'
+        ) {
+          return true;
+        }
+        return false;
+      },
+    }),
+  ],
 };

@@ -24,6 +24,8 @@ We start with the unit tests that we already have in `test/test.js` of the main 
 * a CommonJS version that does the same replacement (this will be used by browserify, which cannot process ES6 modules)
 * a CommonJS version that removes all SES imports (this will be used by unpkg)
 
+IMPORTANT: test-require.js is not part of the test suite for webpack and parcel because they will error when they are unable to find the fake modules `foo` and `unknown`. test-require.js *is* tested by browserify and rollup and mock-unpkg though. 
+
 ### Webpack
 
 We take the ES6 modules version of the test that we created and bundle it with webpack (settings in `integration-test/scaffolding/webpack/webpack.config.js`)
