@@ -59,7 +59,7 @@ references:
         key: dependency-cache-{{ checksum "package.json" }}
         paths:
           - ./node_modules
-  update_realms_default: &update_realms
+  update_realm_submodule_default: &update_realm_submodule
     run: 
         name: Git Submodule Update
         command: git submodule update --init --recursive
@@ -73,11 +73,11 @@ jobs:
     <<: *node11image
     steps: 
       - checkout
+      - *update_realm_submodule
       - *install_npm
       - *restore_cache
       - *install_npm_packages
       - *save_cache
-      - *update_realms
       - run: &lint
           name: Lint
           command: npm run lint-check
@@ -107,11 +107,11 @@ jobs:
     <<: *node11browsersimage
     steps: 
       - checkout
+      - *update_realm_submodule
       - *install_npm
       - *restore_cache
       - *install_npm_packages
       - *save_cache
-      - *update_realms
       - run:
           name: Build browser tests and bundle
           command: ./integration-test/scripts/build-pre-release-test.sh
@@ -143,11 +143,11 @@ jobs:
     <<: *node11browsersimage
     steps: 
       - checkout
+      - *update_realm_submodule
       - *install_npm
       - *restore_cache
       - *install_npm_packages
       - *save_cache
-      - *update_realms
       - run:
           name: Build browser tests
           command: ./integration-test/scripts/build-post-release-test.sh
